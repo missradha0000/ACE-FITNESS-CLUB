@@ -19,144 +19,472 @@ import {
 } from 'lucide-react';
 
 type Language = 'en' | 'hi';
-type ActivePage = 'home' | 'zones' | 'members' | 'director' | 'location';
+type ActivePage = 'home' | 'plans' | 'zones' | 'members' | 'director' | 'location';
 
 const UPLOADED_LOGO_URL = '/assets/aistudio/WhatsApp_Image_2026-11-16_at_8.43.29_PM_c4cc8470.jpg';
+
+export interface MembershipPlan {
+  id: string;
+  badgeEn: string;
+  badgeHi: string;
+  nameEn: string;
+  nameHi: string;
+  durationEn: string;
+  durationHi: string;
+  amountNumber: number;
+  amountFormatted: string;
+  perMonthEn: string;
+  perMonthHi: string;
+  savingsEn?: string;
+  savingsHi?: string;
+  popular?: boolean;
+  featuresEn: string[];
+  featuresHi: string[];
+}
+
+const MEMBERSHIP_PLANS: MembershipPlan[] = [
+  {
+    id: 'plan-trial',
+    badgeEn: 'STARTER PASS',
+    badgeHi: 'ट्रायल पास',
+    nameEn: '1-Day Trial Pass',
+    nameHi: '1 दिन का ट्रायल पास',
+    durationEn: '1 Day Full Floor Access',
+    durationHi: '1 दिन (फुल जिम एक्सेस)',
+    amountNumber: 199,
+    amountFormatted: '₹199',
+    perMonthEn: '100% redeemable on joining',
+    perMonthHi: 'मेंबरशिप लेने पर यह राशि एडजस्ट होगी',
+    featuresEn: [
+      'Full access to Strength, Cardio & Abs Floor',
+      'Initial Posture & Fitness Consultation',
+      'Supervised floor workout session',
+    ],
+    featuresHi: [
+      'स्ट्रेंथ, कार्डियो और एब्स ज़ोन का पूरा एक्सेस',
+      'बॉडी पोस्चर और फिटनेस कंसल्टेशन',
+      'कोच की देखरेख में ट्रायल वर्कआउट सेशन',
+    ],
+  },
+  {
+    id: 'plan-monthly',
+    badgeEn: 'FLEXIBLE MONTHLY',
+    badgeHi: 'मासिक प्लान',
+    nameEn: '1 Month Club Membership',
+    nameHi: '1 महीना फिटनेस प्लान',
+    durationEn: '30 Days Access',
+    durationHi: '1 महीना (30 दिन)',
+    amountNumber: 2000,
+    amountFormatted: '₹2,000',
+    perMonthEn: '₹2,000 / month',
+    perMonthHi: '₹2,000 प्रति माह',
+    featuresEn: [
+      'Complete Strength & Biomechanics Floor',
+      'Commercial Cardio & Spin Studio Access',
+      'Core & Functional Training Area',
+      'General Floor Trainer Guidance',
+    ],
+    featuresHi: [
+      'कम्प्लीट स्ट्रेंथ और बायोमैकेनिक्स फ्लोर',
+      'कमर्शियल कार्डियो और स्पिनिंग ज़ोन',
+      'एब्स और फंक्शनल ट्रेनिंग एरिया',
+      'जनरल फ्लोर ट्रेनर गाइडेंस',
+    ],
+  },
+  {
+    id: 'plan-quarterly',
+    badgeEn: 'MOST POPULAR',
+    badgeHi: 'सबसे लोकप्रिय (Popular)',
+    nameEn: '3 Months Pro Membership',
+    nameHi: '3 महीने का प्रो प्लान',
+    durationEn: '90 Days Access',
+    durationHi: '3 महीने (90 दिन)',
+    amountNumber: 5000,
+    amountFormatted: '₹5,000',
+    perMonthEn: 'Effective ₹1,666 / month',
+    perMonthHi: 'केवल ₹1,666 प्रति माह पड़ेगा',
+    savingsEn: 'Save ₹1,000',
+    savingsHi: '₹1,000 की सीधी बचत',
+    popular: true,
+    featuresEn: [
+      'All Strength, Cardio, Abs & Functional Zones',
+      'Group Yoga, Aerobics & Dance Fitness Sessions',
+      'Customized Nutritional & Diet Assistance Chart',
+      'Monthly Progress & BMI Tracking',
+    ],
+    featuresHi: [
+      'सभी स्ट्रेंथ, कार्डियो, एब्स और फंक्शनल ज़ोन',
+      'ग्रुप योगा, एरोबिक्स और डांस फिटनेस क्लासेस',
+      'पर्सनल डाइट और न्यूट्रिशन चार्ट गाइडेंस',
+      'हर महीने फिटनेस और प्रोग्रेस ट्रैकिंग',
+    ],
+  },
+  {
+    id: 'plan-halfyearly',
+    badgeEn: 'BEST TRANSFORMATION',
+    badgeHi: 'बेस्ट ट्रांसफॉर्मेशन',
+    nameEn: '6 Months Transformation Plan',
+    nameHi: '6 महीने का ट्रांसफॉर्मेशन प्लान',
+    durationEn: '180 Days Access',
+    durationHi: '6 महीने (180 दिन)',
+    amountNumber: 8500,
+    amountFormatted: '₹8,500',
+    perMonthEn: 'Effective ₹1,416 / month',
+    perMonthHi: 'केवल ₹1,416 प्रति माह पड़ेगा',
+    savingsEn: 'Save ₹3,500',
+    savingsHi: '₹3,500 की बड़ी बचत',
+    featuresEn: [
+      'Unlimited access to all Gym & Studio Zones',
+      'Includes Quadiexer, Core Conditioning & Outdoor Bootcamps',
+      'Personalized Fat-Loss / Muscle-Gain Nutrition Plan',
+      'Direct Goal Review with Senior Coaching Team',
+    ],
+    featuresHi: [
+      'सभी जिम और स्टूडियो ज़ोन का अनलिमिटेड एक्सेस',
+      'क्वाडिएक्सर, कोर कंडीशनिंग और आउटडोर सेशन शामिल',
+      'फैट-लॉस / मसल-गेन स्पेशल डाइट प्लान',
+      'सीनियर कोचिंग टीम के साथ प्रोग्रेस रिव्यु',
+    ],
+  },
+  {
+    id: 'plan-annual',
+    badgeEn: 'ULTIMATE VALUE · VIP',
+    badgeHi: 'साल भर का सुपर सेवर प्लान',
+    nameEn: '1 Year Complete Club Membership',
+    nameHi: '1 साल (12 महीने) का कम्प्लीट प्लान',
+    durationEn: '365 Days Full Club Access',
+    durationHi: 'पूरे 12 महीने (365 दिन)',
+    amountNumber: 14000,
+    amountFormatted: '₹14,000',
+    perMonthEn: 'Just ₹1,166 / month',
+    perMonthHi: 'सिर्फ ₹1,166 प्रति माह!',
+    savingsEn: 'Save ₹10,000',
+    savingsHi: '₹10,000 की भारी बचत',
+    popular: true,
+    featuresEn: [
+      'All 10+ Fitness Solutions Under One Roof for 1 Full Year',
+      'Priority Biomechanics & Program Design by Director Abhishek K. Gaur',
+      'Complete Seasonal Diet & Clinical Nutrition Updates',
+      'Complimentary Guest Trial Passes for Family',
+    ],
+    featuresHi: [
+      'पूरे 1 साल के लिए सभी 10+ फिटनेस प्रोग्राम्स का एक्सेस',
+      'डायरेक्टर अभिषेक के. गौर (PEPT ऑस्ट्रेलिया एवं ACE) द्वारा प्रोग्राम गाइडेंस',
+      'पूरे साल मौसम और गोल के अनुसार डाइट प्लान अपडेट्स',
+      'परिवार के सदस्यों के लिए कॉम्प्लीमेंट्री ट्रायल पास',
+    ],
+  },
+  {
+    id: 'plan-pilates-pt',
+    badgeEn: 'SPECIALIZED 1-ON-1 STUDIO',
+    badgeHi: 'रिफॉर्मर पिलाटेस / पर्सनल ट्रेनिंग',
+    nameEn: 'Reformer Pilates / Personal Training',
+    nameHi: 'रिफॉर्मर पिलाटेस / 1-on-1 पर्सनल ट्रेनिंग',
+    durationEn: '1 Month Dedicated Coaching',
+    durationHi: '1 महीना डेडिकेटेड कोचिंग',
+    amountNumber: 4500,
+    amountFormatted: '₹4,500',
+    perMonthEn: 'Dedicated Personal Coach',
+    perMonthHi: 'स्पेशल पर्सनल कोच के साथ',
+    featuresEn: [
+      'Dedicated Reformer Pilates Studio or 1-on-1 Personal Trainer',
+      'Posture Alignment, Rehab & Core Flexibility Focus',
+      'ACE IFT® Model Individualized Workout Programming',
+      'Daily Nutrition & Lifestyle Monitoring',
+    ],
+    featuresHi: [
+      'रिफॉर्मर पिलाटेस मशीन या 1-on-1 पर्सनल ट्रेनर सेशन',
+      'पोस्चर सुधार, कोर मजबूती और फ्लेक्सिबिलिटी पर विशेष ध्यान',
+      'ACE IFT® मॉडल के अनुसार व्यक्तिगत वर्कआउट प्लान',
+      'डेली डाइट और न्यूट्रिशन मॉनिटरिंग',
+    ],
+  },
+];
 
 interface HangingRopeLogoProps {
   onClickHome: () => void;
   lang: Language;
 }
 
+interface RopeNode {
+  x: number;
+  y: number;
+  oldX: number;
+  oldY: number;
+}
+
 /**
- * Interactive Pendulum Logo suspended by a braided rope from the top header ceiling.
- * - Continuously sways gently on its own (ambient breeze).
- * - Can be grabbed/pulled with a finger or mouse (touch/pointer drag physics).
- * - Clicking/tapping triggers an energetic swing + bounce animation.
- * - Uses pointer-events-none on the outer wrapper so it never blocks surrounding UI.
+ * Ultra-Flexible, Stretchable & Bendable Multi-Node Verlet Rope Logo.
+ * - Uses 14 physics nodes so the rope bends in smooth curves (S-waves, loops) and stretches all the way down the screen when pulled!
+ * - Continuously sways in a gentle breeze when untouched.
+ * - Grab with finger or mouse to pull down, stretch, bend, or whip around anywhere on the page.
+ * - Release to watch it slingshot, bounce, and oscillate back smoothly.
  */
 function HangingRopeLogo({ onClickHome, lang }: HangingRopeLogoProps) {
-  const pivotRef = useRef<HTMLDivElement | null>(null);
-  const pendulumRef = useRef<HTMLDivElement | null>(null);
+  const anchorMeasureRef = useRef<HTMLDivElement | null>(null);
+  const shadowPathRef = useRef<SVGPathElement | null>(null);
+  const borderPathRef = useRef<SVGPathElement | null>(null);
+  const corePathRef = useRef<SVGPathElement | null>(null);
+  const twistPathRef = useRef<SVGPathElement | null>(null);
+  const ceilingMountRef = useRef<SVGEllipseElement | null>(null);
+  const knotGroupRef = useRef<SVGGElement | null>(null);
   const badgeRef = useRef<HTMLButtonElement | null>(null);
 
-  // Physics state stored in refs for smooth 60fps animation without React re-render lag
-  const physRef = useRef({
-    angle: 6, // current angle in degrees
-    velocity: 0, // angular velocity
+  const NUM_NODES = 14;
+
+  const stateRef = useRef({
+    nodes: Array.from({ length: NUM_NODES }, (_, i) => ({
+      x: 84,
+      y: i * 5,
+      oldX: 84,
+      oldY: i * 5,
+    })) as RopeNode[],
+    anchorX: 84,
+    restRopeLen: 64,
+    currentRopeLen: 64,
     isDragging: false,
+    pointerX: 84,
+    pointerY: 110,
     dragStartX: 0,
     dragStartY: 0,
     maxDragDist: 0,
-    lastPointerAngle: 0,
-    lastMoveTime: 0,
-    swingDir: 1,
-    pulseScale: 1,
-    pulseVelocity: 0,
+    badgeScale: 1,
+    badgeScaleVel: 0,
+    badgeAngle: 0,
+    badgeAngularVel: 0,
+    initialized: false,
   });
 
   useEffect(() => {
+    const updateAnchorPosition = () => {
+      if (!anchorMeasureRef.current) return;
+      const rect = anchorMeasureRef.current.getBoundingClientRect();
+      const isMobile = window.innerWidth < 640;
+      const newAnchorX = rect.left + rect.width / 2;
+      const newRestLen = isMobile ? 52 : 68;
+      const st = stateRef.current;
+      st.anchorX = newAnchorX;
+      st.restRopeLen = newRestLen;
+
+      if (!st.initialized) {
+        st.initialized = true;
+        st.currentRopeLen = newRestLen;
+        const seg = newRestLen / (NUM_NODES - 1);
+        for (let i = 0; i < NUM_NODES; i++) {
+          st.nodes[i].x = newAnchorX + Math.sin(i * 0.2) * 3;
+          st.nodes[i].y = i * seg;
+          st.nodes[i].oldX = st.nodes[i].x;
+          st.nodes[i].oldY = st.nodes[i].y;
+        }
+      }
+    };
+
+    updateAnchorPosition();
+    window.addEventListener('resize', updateAnchorPosition);
+
     let rafId: number;
     const startTime = performance.now();
 
-    const step = (now: number) => {
+    // Build a smooth quadratic spline SVG path through the 14 rope nodes
+    const buildSmoothRopePath = (nodes: RopeNode[], offsetX = 0, offsetY = 0) => {
+      if (nodes.length < 2) return '';
+      let d = `M ${(nodes[0].x + offsetX).toFixed(1)} ${(nodes[0].y + offsetY).toFixed(1)}`;
+      for (let i = 1; i < nodes.length - 1; i++) {
+        const xc = (nodes[i].x + nodes[i + 1].x) / 2 + offsetX;
+        const yc = (nodes[i].y + nodes[i + 1].y) / 2 + offsetY;
+        d += ` Q ${(nodes[i].x + offsetX).toFixed(1)} ${(nodes[i].y + offsetY).toFixed(1)}, ${xc.toFixed(1)} ${yc.toFixed(1)}`;
+      }
+      const last = nodes[nodes.length - 1];
+      d += ` L ${(last.x + offsetX).toFixed(1)} ${(last.y + offsetY).toFixed(1)}`;
+      return d;
+    };
+
+    const tick = (now: number) => {
       const elapsed = (now - startTime) / 1000;
-      const p = physRef.current;
+      const st = stateRef.current;
+      const nodes = st.nodes;
+      const lastIdx = NUM_NODES - 1;
 
-      // Continuous natural breeze target angle (±4.8 deg) so it always gently sways
-      const breezeTarget =
-        Math.sin(elapsed * 2.1) * 4.2 + Math.cos(elapsed * 0.95) * 1.4;
+      const isMobile = window.innerWidth < 640;
+      const badgeRadius = isMobile ? 43 : window.innerWidth < 768 ? 56 : 66;
 
-      if (!p.isDragging) {
-        // Restoring pendulum gravity torque toward the breeze target
-        const restoringForce = -0.018 * (p.angle - breezeTarget);
-        p.velocity += restoringForce;
-        p.velocity *= 0.972; // realistic air damping
-        p.angle += p.velocity;
+      // Ambient gentle breeze force so it continuously sways even when untouched
+      const breezeForce =
+        Math.sin(elapsed * 2.15) * 0.14 + Math.cos(elapsed * 0.9) * 0.06;
 
-        // Soft clamp within ±55 deg
-        if (p.angle > 55) {
-          p.angle = 55;
-          p.velocity *= -0.5;
-        } else if (p.angle < -55) {
-          p.angle = -55;
-          p.velocity *= -0.5;
+      if (st.isDragging) {
+        // Target knot position is just above the center of the dragged medallion
+        const targetKnotX = st.pointerX;
+        const targetKnotY = Math.max(24, st.pointerY - badgeRadius * 0.72);
+
+        // Calculate stretch distance from ceiling anchor to finger
+        const distFromCeiling = Math.hypot(
+          targetKnotX - st.anchorX,
+          targetKnotY
+        );
+        // Allow the rope to stretch flexibly up to the full screen height (with extra slack so it can bend & curve!)
+        const desiredLen = Math.max(st.restRopeLen, distFromCeiling * 1.12);
+        st.currentRopeLen += (desiredLen - st.currentRopeLen) * 0.35;
+      } else {
+        // Elastic retraction back to resting rope length when released
+        st.currentRopeLen += (st.restRopeLen - st.currentRopeLen) * 0.085;
+      }
+
+      // 1. Verlet Integration step for intermediate & end nodes
+      for (let i = 1; i < NUM_NODES; i++) {
+        const n = nodes[i];
+        const vx = (n.x - n.oldX) * 0.962;
+        const vy = (n.y - n.oldY) * 0.962;
+        n.oldX = n.x;
+        n.oldY = n.y;
+
+        // End node (medallion) has heavier mass & stronger breeze response
+        const weightFactor = i === lastIdx ? 1.35 : 0.85;
+        n.x += vx + breezeForce * (i / lastIdx);
+        n.y += vy + 0.52 * weightFactor;
+      }
+
+      // If user is actively dragging, pull the end knot smoothly toward pointer
+      if (st.isDragging) {
+        const targetKnotX = st.pointerX;
+        const targetKnotY = Math.max(24, st.pointerY - badgeRadius * 0.72);
+        const endNode = nodes[lastIdx];
+        endNode.x += (targetKnotX - endNode.x) * 0.55;
+        endNode.y += (targetKnotY - endNode.y) * 0.55;
+      } else {
+        // Gentle elastic spring pulling the medallion back up if stretched very far down
+        const endNode = nodes[lastIdx];
+        const stretchExcess = endNode.y - st.restRopeLen;
+        if (stretchExcess > 18) {
+          endNode.y -= stretchExcess * 0.045;
         }
       }
 
-      // Spring-back scale animation for click/tap bounce
-      const scaleForce = -0.18 * (p.pulseScale - 1);
-      p.pulseVelocity = (p.pulseVelocity + scaleForce) * 0.82;
-      p.pulseScale += p.pulseVelocity;
+      // 2. Multi-iteration Distance Constraint Relaxation (makes the rope bend, wave, and curve realistically!)
+      const segLen = st.currentRopeLen / (NUM_NODES - 1);
+      const iterations = 12;
 
-      if (pendulumRef.current) {
-        pendulumRef.current.style.transform = `rotate(${p.angle.toFixed(2)}deg)`;
+      for (let iter = 0; iter < iterations; iter++) {
+        // Pin Node 0 at the ceiling mount
+        nodes[0].x = st.anchorX;
+        nodes[0].y = 0;
+
+        for (let i = 0; i < NUM_NODES - 1; i++) {
+          const n1 = nodes[i];
+          const n2 = nodes[i + 1];
+          const dx = n2.x - n1.x;
+          const dy = n2.y - n1.y;
+          const dist = Math.hypot(dx, dy) || 0.0001;
+          const diff = (segLen - dist) / dist;
+
+          if (i === 0) {
+            // Node 0 is fixed at the ceiling
+            n2.x += dx * diff;
+            n2.y += dy * diff;
+          } else if (i === NUM_NODES - 2 && st.isDragging) {
+            // While dragging, the end node is guided strongly by the user's finger
+            n1.x -= dx * diff * 0.85;
+            n1.y -= dy * diff * 0.85;
+            n2.x += dx * diff * 0.15;
+            n2.y += dy * diff * 0.15;
+          } else {
+            // Intermediate nodes share tension equally (creating realistic curves and waves)
+            const w1 = i === NUM_NODES - 2 ? 0.65 : 0.5;
+            const w2 = 1 - w1;
+            n1.x -= dx * diff * w1;
+            n1.y -= dy * diff * w1;
+            n2.x += dx * diff * w2;
+            n2.y += dy * diff * w2;
+          }
+        }
       }
+
+      // Compute the rope end tangent angle so the knot and medallion tilt naturally with the bent rope
+      const endNode = nodes[lastIdx];
+      const prevNode = nodes[lastIdx - 2] || nodes[lastIdx - 1];
+      const targetTilt =
+        -Math.atan2(endNode.x - prevNode.x, Math.max(12, endNode.y - prevNode.y)) *
+        (180 / Math.PI);
+      const clampedTilt = Math.max(-55, Math.min(55, targetTilt));
+
+      const angleForce = (clampedTilt - st.badgeAngle) * 0.18;
+      st.badgeAngularVel = (st.badgeAngularVel + angleForce) * 0.78;
+      st.badgeAngle += st.badgeAngularVel;
+
+      // Scale spring for click/release bounce
+      const scaleForce = (1 - st.badgeScale) * 0.2;
+      st.badgeScaleVel = (st.badgeScaleVel + scaleForce) * 0.8;
+      st.badgeScale += st.badgeScaleVel;
+
+      // 3. Update DOM elements directly at 60fps
+      const pathStr = buildSmoothRopePath(nodes, 0, 0);
+      const shadowStr = buildSmoothRopePath(nodes, 3, 5);
+
+      if (shadowPathRef.current) shadowPathRef.current.setAttribute('d', shadowStr);
+      if (borderPathRef.current) borderPathRef.current.setAttribute('d', pathStr);
+      if (corePathRef.current) corePathRef.current.setAttribute('d', pathStr);
+      if (twistPathRef.current) twistPathRef.current.setAttribute('d', pathStr);
+
+      if (ceilingMountRef.current) {
+        ceilingMountRef.current.setAttribute('cx', st.anchorX.toFixed(1));
+      }
+
+      if (knotGroupRef.current) {
+        knotGroupRef.current.setAttribute(
+          'transform',
+          `translate(${endNode.x.toFixed(1)}, ${endNode.y.toFixed(1)}) rotate(${st.badgeAngle.toFixed(1)})`
+        );
+      }
+
       if (badgeRef.current) {
-        badgeRef.current.style.transform = `scale(${p.pulseScale.toFixed(3)})`;
+        // Position the circular medallion centered right below the rope knot
+        const badgeCenterX = endNode.x;
+        const badgeCenterY = endNode.y + badgeRadius * 0.86;
+        badgeRef.current.style.transform = `translate3d(${(badgeCenterX - badgeRadius).toFixed(1)}px, ${(badgeCenterY - badgeRadius).toFixed(1)}px, 0) rotate(${(st.badgeAngle * 0.65).toFixed(1)}deg) scale(${st.badgeScale.toFixed(3)})`;
       }
 
-      rafId = requestAnimationFrame(step);
+      rafId = requestAnimationFrame(tick);
     };
 
-    rafId = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(rafId);
+    rafId = requestAnimationFrame(tick);
+    return () => {
+      cancelAnimationFrame(rafId);
+      window.removeEventListener('resize', updateAnchorPosition);
+    };
   }, []);
-
-  const computePointerAngle = (clientX: number, clientY: number) => {
-    if (!pivotRef.current) return 0;
-    const rect = pivotRef.current.getBoundingClientRect();
-    const pivotX = rect.left + rect.width / 2;
-    const pivotY = rect.top;
-    const dx = clientX - pivotX;
-    const dy = Math.max(30, clientY - pivotY);
-    // Positive angle rotates clockwise (to the right), negative rotates counter-clockwise (to the left)
-    const rawDeg = -Math.atan2(dx, dy) * (180 / Math.PI);
-    return Math.max(-48, Math.min(48, rawDeg));
-  };
 
   const handlePointerDown = (e: React.PointerEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    const p = physRef.current;
-    p.isDragging = true;
-    p.dragStartX = e.clientX;
-    p.dragStartY = e.clientY;
-    p.maxDragDist = 0;
-    const newAngle = computePointerAngle(e.clientX, e.clientY);
-    p.lastPointerAngle = newAngle;
-    p.lastMoveTime = performance.now();
-    p.pulseScale = 0.94;
+    const st = stateRef.current;
+    st.isDragging = true;
+    st.dragStartX = e.clientX;
+    st.dragStartY = e.clientY;
+    st.pointerX = e.clientX;
+    st.pointerY = e.clientY;
+    st.maxDragDist = 0;
+    st.badgeScale = 0.93;
     try {
       e.currentTarget.setPointerCapture(e.pointerId);
     } catch {
-      // ignore if pointer capture unsupported
+      // ignore
     }
   };
 
   const handlePointerMove = (e: React.PointerEvent<HTMLButtonElement>) => {
-    const p = physRef.current;
-    if (!p.isDragging) return;
+    const st = stateRef.current;
+    if (!st.isDragging) return;
+    const dist = Math.hypot(e.clientX - st.dragStartX, e.clientY - st.dragStartY);
+    if (dist > st.maxDragDist) st.maxDragDist = dist;
 
-    const dist = Math.hypot(e.clientX - p.dragStartX, e.clientY - p.dragStartY);
-    if (dist > p.maxDragDist) {
-      p.maxDragDist = dist;
-    }
-
-    const now = performance.now();
-    const dt = Math.max(1, now - p.lastMoveTime);
-    const newAngle = computePointerAngle(e.clientX, e.clientY);
-
-    // Track finger flick velocity
-    p.velocity = ((newAngle - p.lastPointerAngle) / dt) * 14;
-    p.angle = newAngle;
-    p.lastPointerAngle = newAngle;
-    p.lastMoveTime = now;
+    // Allow dragging anywhere across the screen (clamped slightly inside viewport edges)
+    st.pointerX = Math.max(40, Math.min(window.innerWidth - 40, e.clientX));
+    st.pointerY = Math.max(40, Math.min(window.innerHeight - 40, e.clientY));
   };
 
   const handlePointerUpOrCancel = (e: React.PointerEvent<HTMLButtonElement>) => {
-    const p = physRef.current;
-    if (!p.isDragging) return;
-    p.isDragging = false;
+    const st = stateRef.current;
+    if (!st.isDragging) return;
+    st.isDragging = false;
 
     try {
       if (e.currentTarget.hasPointerCapture(e.pointerId)) {
@@ -166,153 +494,161 @@ function HangingRopeLogo({ onClickHome, lang }: HangingRopeLogoProps) {
       // ignore
     }
 
-    // If it was a tap/click (minimal drag distance), trigger an energetic swing + bounce!
-    if (p.maxDragDist < 8) {
-      p.swingDir *= -1;
-      p.velocity = p.swingDir * 3.8;
-      p.pulseVelocity = 0.085;
+    const nodes = st.nodes;
+    const lastIdx = NUM_NODES - 1;
+
+    if (st.maxDragDist < 10) {
+      // User tapped/clicked without dragging: inject a fun wave & swing impulse along the rope!
+      const dir = Math.random() > 0.5 ? 1 : -1;
+      nodes[lastIdx].oldX -= dir * 26;
+      nodes[lastIdx].oldY += 14;
+      for (let i = 3; i < lastIdx; i++) {
+        nodes[i].oldX += Math.sin(i * 0.6) * 10 * dir;
+      }
+      st.badgeScaleVel = 0.11;
       onClickHome();
     } else {
-      // Released after dragging with finger/mouse: boost release velocity slightly for a fun swing
-      p.velocity = Math.max(-5.5, Math.min(5.5, p.velocity * 1.25));
-      p.pulseVelocity = 0.05;
+      // User dragged & released: add an elastic slingshot wave & bounce!
+      st.badgeScaleVel = 0.09;
+      for (let i = 2; i < lastIdx; i++) {
+        nodes[i].oldX += (Math.random() - 0.5) * 6;
+      }
     }
   };
 
   const handleMouseEnter = () => {
-    const p = physRef.current;
-    if (!p.isDragging && Math.abs(p.velocity) < 1.2) {
-      p.swingDir *= -1;
-      p.velocity += p.swingDir * 1.45;
+    const st = stateRef.current;
+    if (!st.isDragging) {
+      const endNode = st.nodes[NUM_NODES - 1];
+      endNode.oldX -= 7;
+      st.badgeScaleVel = 0.04;
     }
   };
 
   return (
-    <div
-      ref={pivotRef}
-      className="fixed top-0 left-2 sm:left-6 lg:left-10 z-50 pointer-events-none select-none"
-      style={{ width: '148px' }}
-    >
-      {/* Swinging Pendulum Arm anchored at the very top ceiling (50% 0%) */}
+    <>
+      {/* Hidden measurement box at the top-left of the navbar to anchor the ceiling mount */}
       <div
-        ref={pendulumRef}
-        className=" flex flex-col items-center origin-top will-change-transform"
-        style={{ transformOrigin: '50% 0%' }}
+        ref={anchorMeasureRef}
+        className="fixed top-0 left-2 sm:left-6 lg:left-10 w-[96px] sm:w-[124px] md:w-[144px] h-1 pointer-events-none z-50"
+        aria-hidden="true"
+      />
+
+      {/* Full-Viewport Non-Blocking SVG Canvas for the Stretchable, Bendable Braided Rope */}
+      <svg
+        className="fixed inset-0 w-screen h-screen pointer-events-none z-50 overflow-visible"
+        aria-hidden="true"
       >
-        {/* Realistic Twisted Rope SVG + Top Ceiling Mount + Braided Knot */}
-        <svg
-          viewBox="0 0 40 76"
-          className="w-7 sm:w-8 h-[48px] sm:h-[62px] md:h-[72px] shrink-0 drop-shadow-[0_4px_6px_rgba(0,0,0,0.65)] overflow-visible"
-          aria-hidden="true"
-        >
-          <defs>
-            <linearGradient id="ropeFiberGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#5C4B37" />
-              <stop offset="30%" stopColor="#D7C3A3" />
-              <stop offset="55%" stopColor="#B39874" />
-              <stop offset="85%" stopColor="#6E5A42" />
-              <stop offset="100%" stopColor="#3E3223" />
-            </linearGradient>
-            <linearGradient id="goldRingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#FEF08A" />
-              <stop offset="50%" stopColor="#FACC15" />
-              <stop offset="100%" stopColor="#CA8A04" />
-            </linearGradient>
-          </defs>
+        {/* 1. Soft 3D Rope Drop Shadow */}
+        <path
+          ref={shadowPathRef}
+          fill="none"
+          stroke="rgba(0,0,0,0.38)"
+          strokeWidth="9"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
 
-          {/* Ceiling Shadow / Eyelet at top=0 */}
-          <ellipse cx="20" cy="2" rx="6" ry="2.5" fill="#0B0F14" />
+        {/* 2. Dark Hemp Rope Outer Edge */}
+        <path
+          ref={borderPathRef}
+          fill="none"
+          stroke="#3E3020"
+          strokeWidth="8.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
 
-          {/* Main Braided Rope Core */}
-          <rect x="16.5" y="0" width="7" height="58" rx="3" fill="url(#ropeFiberGrad)" />
+        {/* 3. Main Braided Rope Fiber Body */}
+        <path
+          ref={corePathRef}
+          fill="none"
+          stroke="#B99C73"
+          strokeWidth="6"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
 
-          {/* Twisted Rope Diagonal Strands for Realistic Texture */}
-          {[4, 11, 18, 25, 32, 39, 46, 52].map((yPos) => (
-            <g key={yPos}>
-              <path
-                d={`M16 ${yPos} C18 ${yPos + 2.5}, 22 ${yPos + 2.5}, 24 ${yPos + 5}`}
-                stroke="#433524"
-                strokeWidth="1.6"
-                fill="none"
-                strokeLinecap="round"
-              />
-              <path
-                d={`M16.8 ${yPos + 1.5} C19 ${yPos + 3.5}, 21.5 ${yPos + 3.5}, 23.2 ${yPos + 5.5}`}
-                stroke="#EFE2C8"
-                strokeWidth="0.9"
-                strokeOpacity="0.7"
-                fill="none"
-                strokeLinecap="round"
-              />
-            </g>
-          ))}
+        {/* 4. Twisted Rope Diagonal Highlight Strands (stretches & bends dynamically along the curve!) */}
+        <path
+          ref={twistPathRef}
+          fill="none"
+          stroke="#F1E4C8"
+          strokeWidth="4.2"
+          strokeDasharray="4 7"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
 
-          {/* Realistic Rope Knot / Loop right above the Medallion */}
+        {/* 5. Top Ceiling Eyelet at y=2 */}
+        <ellipse
+          ref={ceilingMountRef}
+          cx="84"
+          cy="2"
+          rx="7"
+          ry="3"
+          fill="#0B0F14"
+          stroke="#FACC15"
+          strokeWidth="1.2"
+        />
+
+        {/* 6. Braided Rope Knot & Golden Eyelet Loop Attached to the Medallion */}
+        <g ref={knotGroupRef} transform="translate(84, 64)">
           <ellipse
-            cx="20"
-            cy="60"
-            rx="6.5"
+            cx="0"
+            cy="-2"
+            rx="6.8"
             ry="4.2"
-            fill="url(#ropeFiberGrad)"
-            stroke="#3E3223"
+            fill="#B99C73"
+            stroke="#3E3020"
+            strokeWidth="1.5"
+          />
+          <path
+            d="M-5 -2 C-2 1, 2 1, 5 -2"
+            stroke="#F1E4C8"
             strokeWidth="1.2"
-          />
-          <path
-            d="M14.5 59.5 C17 62, 23 62, 25.5 59.5"
-            stroke="#EFE2C8"
-            strokeWidth="1"
-            strokeOpacity="0.65"
             fill="none"
-          />
-          {/* Rope Anchor Loop Hugging the Top of the Medallion Ring */}
-          <path
-            d="M15 63 C14 70, 26 70, 25 63"
-            stroke="url(#ropeFiberGrad)"
-            strokeWidth="3.5"
-            fill="none"
-            strokeLinecap="round"
           />
           <circle
-            cx="20"
-            cy="68"
+            cx="0"
+            cy="5"
             r="4.5"
             fill="none"
-            stroke="url(#goldRingGrad)"
-            strokeWidth="2.2"
+            stroke="#FACC15"
+            strokeWidth="2.4"
           />
-        </svg>
+        </g>
+      </svg>
 
-        {/* Interactive Circular Medallion Badge */}
-        <button
-          ref={badgeRef}
-          type="button"
-          onPointerDown={handlePointerDown}
-          onPointerMove={handlePointerMove}
-          onPointerUp={handlePointerUpOrCancel}
-          onPointerCancel={handlePointerUpOrCancel}
-          onMouseEnter={handleMouseEnter}
-          title={
-            lang === 'en'
-              ? 'Drag with finger/mouse to swing or click for animation!'
-              : 'अंगुली या माउस से हिलाएं या क्लिक करें!'
-          }
-          aria-label="Ace Fitness Club Hanging Logo — Drag or Click to Swing"
-          className="-mt-2.5 w-[86px] h-[86px] sm:w-[112px] sm:h-[112px] md:w-[132px] md:h-[132px] rounded-full p-[3.5px] sm:p-[4.5px] bg-gradient-to-b from-[#FDE047] via-[#FACC15] to-[#EAB308] shadow-[0_16px_30px_rgba(0,0,0,0.45),0_4px_10px_rgba(0,0,0,0.3)] cursor-grab active:cursor-grabbing pointer-events-auto touch-none relative group focus:outline-none"
-        >
-          {/* Inner Black Circle Medallion */}
-          <div className="w-full h-full rounded-full overflow-hidden bg-black relative flex items-center justify-center ring-1 ring-black/40">
-            <img
-              src={UPLOADED_LOGO_URL}
-              alt="Ace Fitness Club Official Emblem"
-              draggable={false}
-              className="w-full h-full object-cover scale-[1.32] select-none pointer-events-none"
-            />
-            {/* Subtle Gloss Highlight across the top arc */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-white/15 pointer-events-none rounded-full" />
-          </div>
-        </button>
-      </div>
-    </div>
+      {/* Interactive Draggable & Swingable Medallion Button */}
+      <button
+        ref={badgeRef}
+        type="button"
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUpOrCancel}
+        onPointerCancel={handlePointerUpOrCancel}
+        onMouseEnter={handleMouseEnter}
+        title={
+          lang === 'en'
+            ? 'Pull down anywhere on screen to stretch & bend the rope, or tap to bounce!'
+            : 'लोगो को पकड़कर नीचे तक खींचें, रस्सी मोड़ें और इसके साथ खेलें!'
+        }
+        aria-label="Ace Fitness Club Interactive Rope Logo — Pull & Play"
+        style={{ transform: 'translate3d(20px, 50px, 0)' }}
+        className="fixed top-0 left-0 z-50 w-[86px] h-[86px] sm:w-[112px] sm:h-[112px] md:w-[132px] md:h-[132px] rounded-full p-[3.5px] sm:p-[4.5px] bg-gradient-to-b from-[#FDE047] via-[#FACC15] to-[#EAB308] shadow-[0_18px_34px_rgba(0,0,0,0.48),0_4px_12px_rgba(0,0,0,0.32)] cursor-grab active:cursor-grabbing pointer-events-auto touch-none select-none will-change-transform focus:outline-none"
+      >
+        <div className="w-full h-full rounded-full overflow-hidden bg-black relative flex items-center justify-center ring-1 ring-black/40">
+          <img
+            src={UPLOADED_LOGO_URL}
+            alt="Ace Fitness Club Official Emblem"
+            draggable={false}
+            className="w-full h-full object-cover scale-[1.32] select-none pointer-events-none"
+          />
+          <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-white/15 pointer-events-none rounded-full" />
+        </div>
+      </button>
+    </>
   );
 }
 
@@ -476,16 +812,22 @@ export default function App() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [lightboxImage, setLightboxImage] = useState<{ src: string; caption: string } | null>(null);
 
-  // WhatsApp Booking Form State
+  // WhatsApp & Complete Booking State
   const [fullName, setFullName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [selectedPlanId, setSelectedPlanId] = useState<string>('plan-quarterly');
   const [selectedProgram, setSelectedProgram] = useState('STRENGTH TRAINING');
   const [preferredBatch, setPreferredBatch] = useState('Morning (6:00 AM – 11:00 AM)');
   const [formError, setFormError] = useState('');
   const [bookingPrepared, setBookingPrepared] = useState(false);
+  const [bookingRefId, setBookingRefId] = useState('AFC-BKN-4921');
+  const [bookingTimeStr, setBookingTimeStr] = useState('');
   const [copiedWaText, setCopiedWaText] = useState(false);
 
   const t = (enText: string, hiText: string) => (lang === 'en' ? enText : hiText);
+
+  const selectedPlanObj =
+    MEMBERSHIP_PLANS.find((p) => p.id === selectedPlanId) || MEMBERSHIP_PLANS[2];
 
   // Automatic Hero Slider Timer (Every 4 seconds)
   useEffect(() => {
@@ -502,6 +844,13 @@ export default function App() {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
   };
 
+  // Select a specific plan & jump straight to the booking desk
+  const handleSelectPlanForBooking = (planId: string) => {
+    setSelectedPlanId(planId);
+    setBookingPrepared(false);
+    navigateInstant('location');
+  };
+
   const prevSlide = () => {
     setCurrentSlide((prev) => (prev - 1 + HERO_SLIDES.length) % HERO_SLIDES.length);
   };
@@ -510,31 +859,38 @@ export default function App() {
     setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
   };
 
-  const buildWhatsAppMessage = () => {
+  const buildWhatsAppMessage = (customRefId?: string) => {
     const cleanName = fullName.trim() || (lang === 'en' ? 'Member' : 'मेंबर');
     const cleanPhone = phoneNumber.trim() || (lang === 'en' ? 'Not provided' : 'उपलब्ध नहीं');
+    const refCode = customRefId || bookingRefId;
 
     if (lang === 'hi') {
       return [
-        'नमस्ते एस फिटनेस क्लब (Ace Fitness Club, Bikaner)!',
-        'मैं आपके जिम में ट्रायल / मेंबरशिप की जानकारी चाहता/चाहती हूँ।',
+        '✅ *नई कन्फर्म जिम बुकिंग — एस फिटनेस क्लब, बीकानेर*',
+        `*बुकिंग आईडी:* ${refCode}`,
         '',
-        `*नाम:* ${cleanName}`,
+        `*सदस्य का नाम:* ${cleanName}`,
         `*मोबाइल नंबर:* ${cleanPhone}`,
-        `*पसंदीदा ट्रेनिंग:* ${selectedProgram}`,
-        `*समय:* ${preferredBatch}`,
+        `*चयनित प्लान:* ${selectedPlanObj.nameHi} (${selectedPlanObj.durationHi})`,
+        `*प्लान राशि (Amount):* ${selectedPlanObj.amountFormatted}`,
+        `*ट्रेनिंग ज़ोन:* ${selectedProgram}`,
+        `*पसंदीदा समय:* ${preferredBatch}`,
+        '',
         '*पता:* Above Puma Showroom, Panchsati Circle, Sadul Ganj, Bikaner',
       ].join('\n');
     }
 
     return [
-      'Hello Ace Fitness Club Bikaner!',
-      'I would like to book a Trial Session / inquire about membership.',
+      '✅ *NEW CONFIRMED BOOKING — ACE FITNESS CLUB, BIKANER*',
+      `*Booking ID:* ${refCode}`,
       '',
-      `*Name:* ${cleanName}`,
-      `*Mobile:* ${cleanPhone}`,
-      `*Program:* ${selectedProgram}`,
-      `*Preferred Time:* ${preferredBatch}`,
+      `*Member Name:* ${cleanName}`,
+      `*Mobile Number:* ${cleanPhone}`,
+      `*Selected Plan:* ${selectedPlanObj.nameEn} (${selectedPlanObj.durationEn})`,
+      `*Plan Amount:* ${selectedPlanObj.amountFormatted}`,
+      `*Training Zone:* ${selectedProgram}`,
+      `*Preferred Batch:* ${preferredBatch}`,
+      '',
       '*Location:* Above Puma Showroom, Panchsati Circle, Sadul Ganj, Bikaner',
     ].join('\n');
   };
@@ -545,7 +901,7 @@ export default function App() {
     e.preventDefault();
     const digitsOnly = phoneNumber.replace(/\D/g, '');
     if (!fullName.trim()) {
-      setFormError(t('Please enter your name.', 'कृपया अपना नाम दर्ज करें।'));
+      setFormError(t('Please enter your full name.', 'कृपया अपना पूरा नाम दर्ज करें।'));
       return;
     }
     if (digitsOnly.length < 10) {
@@ -553,9 +909,21 @@ export default function App() {
       return;
     }
     setFormError('');
+    const newRef = `AFC-${Math.floor(1000 + Math.random() * 9000)}`;
+    setBookingRefId(newRef);
+    setBookingTimeStr(
+      new Date().toLocaleString(lang === 'hi' ? 'hi-IN' : 'en-IN', {
+        dateStyle: 'medium',
+        timeStyle: 'short',
+      })
+    );
     setBookingPrepared(true);
+
+    // Immediately trigger direct WhatsApp dispatch with the newly generated Booking ID & Plan Amount
+    const directUrl = `https://wa.me/919116642929?text=${encodeURIComponent(buildWhatsAppMessage(newRef))}`;
     const anchor = document.getElementById('direct-wa-trigger') as HTMLAnchorElement | null;
     if (anchor) {
+      anchor.href = directUrl;
       anchor.click();
     }
   };
@@ -577,13 +945,13 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-white text-[#212121] flex flex-col pt-[96px] md:pt-[68px]">
-      {/* ==================== INTERACTIVE SWINGING ROPE LOGO (CONTINUOUS SWAY + FINGER DRAG + CLICK BOOST) ==================== */}
+      {/* ==================== INTERACTIVE STRETCHABLE & BENDABLE ROPE LOGO ==================== */}
       <HangingRopeLogo onClickHome={() => navigateInstant('home')} lang={lang} />
 
       {/* ==================== STYLISH PERMANENTLY FIXED TOP HEADER ==================== */}
       <header className="fixed top-0 left-0 right-0 z-40 bg-gradient-to-r from-[#111820] via-[#17232E] to-[#111820] text-white border-b-2 border-[#FACC15]/80 shadow-md">
-        <div className="max-w-[1280px] mx-auto flex items-center justify-between gap-4 sm:gap-8 pl-[108px] sm:pl-[148px] md:pl-[172px] pr-4 sm:pr-6 h-[60px] md:h-[68px]">
-          {/* Mobile Compact Brand Title (to the right of the hanging rope on small screens) */}
+        <div className="max-w-[1280px] mx-auto flex items-center justify-between gap-4 sm:gap-6 pl-[108px] sm:pl-[148px] md:pl-[172px] pr-4 sm:pr-6 h-[60px] md:h-[68px]">
+          {/* Mobile Compact Brand Title */}
           <button
             type="button"
             onClick={() => navigateInstant('home')}
@@ -595,10 +963,10 @@ export default function App() {
             </span>
           </button>
 
-          {/* Zone 2: Desktop Single-Line Navigation Links (Centered like reference design) */}
+          {/* Zone 2: Desktop Single-Line Navigation Links */}
           <nav
             aria-label="Primary Navigation"
-            className="hidden md:flex items-center justify-center flex-1 gap-7 lg:gap-8 text-sm font-semibold text-slate-200"
+            className="hidden md:flex items-center justify-center flex-1 gap-5 lg:gap-7 text-sm font-semibold text-slate-200"
           >
             <button
               type="button"
@@ -610,6 +978,17 @@ export default function App() {
               }`}
             >
               {t('Home', 'होम')}
+            </button>
+            <button
+              type="button"
+              onClick={() => navigateInstant('plans')}
+              className={`transition-colors whitespace-nowrap shrink-0 cursor-pointer py-1 border-b-2 ${
+                activePage === 'plans'
+                  ? 'text-[#FACC15] border-[#FACC15]'
+                  : 'border-transparent hover:text-[#FACC15]'
+              }`}
+            >
+              {t('Plans & Pricing', 'प्लान और फीस (₹)')}
             </button>
             <button
               type="button"
@@ -664,12 +1043,12 @@ export default function App() {
               onClick={() => navigateInstant('location')}
               className="px-4 sm:px-5 py-2 text-xs sm:text-sm font-bold text-[#111820] bg-[#FACC15] hover:bg-[#FDE047] rounded-md transition-colors whitespace-nowrap shrink-0 cursor-pointer shadow-xs"
             >
-              {t('Book Trial / Map', 'ट्रायल / मैप')}
+              {t('Book Plan / Trial', 'प्लान / ट्रायल बुक करें')}
             </button>
           </div>
         </div>
 
-        {/* Mobile Clean Tab Row (Indented on left so the hanging medallion never blocks the Home tab) */}
+        {/* Mobile Clean Tab Row */}
         <nav
           aria-label="Mobile Navigation"
           className="flex md:hidden items-center justify-between gap-5 overflow-x-auto no-scrollbar pl-[108px] sm:pl-[148px] pr-4 h-[36px] bg-[#0D1318] border-t border-white/10 text-xs font-semibold"
@@ -677,10 +1056,11 @@ export default function App() {
           {(
             [
               { id: 'home', en: 'Home', hi: 'होम' },
+              { id: 'plans', en: 'Plans & Fees (₹)', hi: 'प्लान और फीस (₹)' },
               { id: 'zones', en: 'Training Zones', hi: 'ट्रेनिंग ज़ोन' },
               { id: 'members', en: 'Doctors & Reviews', hi: 'डॉक्टर रिव्यु' },
               { id: 'director', en: 'Director & Certificates', hi: 'डायरेक्टर/सर्टिफिकेट' },
-              { id: 'location', en: 'Directions & Map', hi: 'मैप और लोकेशन' },
+              { id: 'location', en: 'Book & Map', hi: 'बुकिंग और मैप' },
             ] as const
           ).map((item) => (
             <button
@@ -845,17 +1225,17 @@ export default function App() {
                   <div className="pt-2 flex flex-wrap items-center gap-3 sm:gap-4">
                     <button
                       type="button"
-                      onClick={() => navigateInstant('location')}
+                      onClick={() => navigateInstant('plans')}
                       className="px-5 sm:px-6 py-3 text-xs sm:text-sm font-bold text-slate-950 bg-[#FACC15] hover:bg-[#FDE047] rounded-md transition-colors cursor-pointer whitespace-nowrap shadow-sm"
                     >
-                      {t('Book Free Trial on WhatsApp', 'WhatsApp पर फ्री ट्रायल बुक करें')}
+                      {t('View Membership Plans & Fees (₹)', 'सभी मेंबरशिप प्लान और फीस देखें (₹)')}
                     </button>
                     <button
                       type="button"
-                      onClick={() => navigateInstant('zones')}
+                      onClick={() => navigateInstant('location')}
                       className="px-4 sm:px-5 py-3 text-xs sm:text-sm font-semibold text-white bg-white/15 hover:bg-white/25 backdrop-blur-xs border border-white/25 rounded-md transition-colors whitespace-nowrap cursor-pointer"
                     >
-                      {t('Explore Training Zones', 'सभी ट्रेनिंग ज़ोन देखें')}
+                      {t('Book Trial / Membership Now', 'अभी ऑनलाइन बुकिंग करें')}
                     </button>
                     <a
                       href="tel:+919116642929"
@@ -953,6 +1333,145 @@ export default function App() {
                     />
                   </div>
                 </div>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* ==================== MEMBERSHIP PLANS & PRICING PAGE / SECTION ==================== */}
+        {showSection('plans') && (
+          <section className="py-12 sm:py-16 bg-[#F8FAFC] border-b border-slate-200">
+            <div className="max-w-[1280px] mx-auto px-4 sm:px-6 space-y-8 sm:space-y-10">
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200 pb-5">
+                <div className="space-y-1">
+                  <div className="text-xs font-bold tracking-widest uppercase text-[#1E6C93]">
+                    {t(
+                      'TRANSPARENT CLUB MEMBERSHIP FEES · BIKANER',
+                      'एस फिटनेस क्लब के सभी प्लान और फीस (₹) की पूरी जानकारी'
+                    )}
+                  </div>
+                  <h2 className="font-display-athletic text-3xl sm:text-4xl font-bold text-[#212121] uppercase">
+                    {t(
+                      'MEMBERSHIP PLANS & PRICING (₹)',
+                      'मेंबरशिप प्लान और फीस चार्ट (MEMBERSHIP PLANS)'
+                    )}
+                  </h2>
+                  <p className="text-xs sm:text-sm text-slate-600 max-w-2xl">
+                    {t(
+                      'Choose the membership package that fits your fitness goals. Click any plan below to pre-select its exact amount and complete your instant booking.',
+                      'अपने फिटनेस लक्ष्य के अनुसार अपना पसंदीदा प्लान चुनें। किसी भी प्लान पर क्लिक करते ही उसकी राशि (Amount) सेलेक्ट हो जाएगी और आपकी बुकिंग तुरंत पूरी हो जाएगी।'
+                    )}
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-2 text-xs font-semibold text-slate-600 bg-white px-3.5 py-2 rounded-md border border-slate-200 shrink-0">
+                  <span>{t('Selected Plan:', 'चयनित प्लान:')}</span>
+                  <span className="font-bold text-[#1E6C93]">
+                    {lang === 'en' ? selectedPlanObj.nameEn : selectedPlanObj.nameHi} (
+                    {selectedPlanObj.amountFormatted})
+                  </span>
+                </div>
+              </div>
+
+              {/* 6 Membership Plan Cards Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {MEMBERSHIP_PLANS.map((plan) => {
+                  const isSelected = plan.id === selectedPlanId;
+                  const features = lang === 'en' ? plan.featuresEn : plan.featuresHi;
+
+                  return (
+                    <article
+                      key={plan.id}
+                      onClick={() => setSelectedPlanId(plan.id)}
+                      className={`rounded-xl p-6 flex flex-col justify-between transition-all cursor-pointer border-2 ${
+                        isSelected
+                          ? 'bg-white border-[#1E6C93] shadow-lg ring-2 ring-[#1E6C93]/20'
+                          : plan.popular
+                          ? 'bg-white border-[#FACC15] shadow-sm hover:border-[#1E6C93]'
+                          : 'bg-white border-slate-200 shadow-2xs hover:border-slate-300'
+                      }`}
+                    >
+                      <div className="space-y-4">
+                        {/* Top Row: Badge + Savings */}
+                        <div className="flex items-center justify-between gap-2">
+                          <span
+                            className={`text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded ${
+                              plan.popular
+                                ? 'bg-[#111820] text-[#FACC15]'
+                                : 'bg-slate-100 text-[#1E6C93]'
+                            }`}
+                          >
+                            {lang === 'en' ? plan.badgeEn : plan.badgeHi}
+                          </span>
+                          {(plan.savingsEn || plan.savingsHi) && (
+                            <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">
+                              {lang === 'en' ? plan.savingsEn : plan.savingsHi}
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Plan Title & Duration */}
+                        <div>
+                          <h3 className="font-display-athletic text-xl sm:text-2xl font-bold text-[#212121] uppercase">
+                            {lang === 'en' ? plan.nameEn : plan.nameHi}
+                          </h3>
+                          <div className="text-xs font-medium text-slate-500 mt-0.5">
+                            {lang === 'en' ? plan.durationEn : plan.durationHi}
+                          </div>
+                        </div>
+
+                        {/* Big Clear Price in ₹ INR */}
+                        <div className="pt-2 pb-3 border-y border-slate-100 flex items-baseline justify-between gap-2">
+                          <div>
+                            <span className="font-mono-tabular text-3xl sm:text-4xl font-extrabold text-[#111820]">
+                              {plan.amountFormatted}
+                            </span>
+                            <div className="text-xs font-semibold text-[#1E6C93] mt-0.5">
+                              {lang === 'en' ? plan.perMonthEn : plan.perMonthHi}
+                            </div>
+                          </div>
+                          {isSelected && (
+                            <span className="inline-flex items-center gap-1 text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded">
+                              <Check className="w-3.5 h-3.5" />
+                              {t('Selected', 'चयनित')}
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Included Features List */}
+                        <ul className="space-y-2 text-xs sm:text-sm text-slate-700">
+                          {features.map((feat) => (
+                            <li key={feat} className="flex items-start gap-2">
+                              <Check className="w-4 h-4 text-[#1E6C93] shrink-0 mt-0.5" />
+                              <span>{feat}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      {/* Direct Book Plan Action Button */}
+                      <div className="pt-6 mt-4">
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleSelectPlanForBooking(plan.id);
+                          }}
+                          className={`w-full py-2.5 px-4 rounded-md font-bold text-xs sm:text-sm transition-colors cursor-pointer ${
+                            isSelected || plan.popular
+                              ? 'bg-[#1E6C93] hover:bg-[#165373] text-white'
+                              : 'bg-[#111820] hover:bg-slate-800 text-[#FACC15]'
+                          }`}
+                        >
+                          {t(
+                            `Select & Book for ${plan.amountFormatted} →`,
+                            `${plan.amountFormatted} में यह प्लान बुक करें →`
+                          )}
+                        </button>
+                      </div>
+                    </article>
+                  );
+                })}
               </div>
             </div>
           </section>
@@ -1548,159 +2067,318 @@ export default function App() {
 
               {/* 2-Column Split: Direct WhatsApp Booking Form + Google Map & Original Instagram QR */}
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                {/* Left: Direct WhatsApp Trial Pass Form */}
-                <div className="lg:col-span-6 rounded-lg bg-white p-5 sm:p-8 shadow-xs space-y-5">
-                  <div className="space-y-1">
-                    <div className="text-xs font-bold tracking-wider uppercase text-[#1E6C93]">
-                      {t('DIRECT WHATSAPP TRIAL DESK', 'डायरेक्ट WhatsApp ट्रायल बुकिंग')}
+                {/* Left: Complete Plan & Trial Booking Desk with Amount (₹) & Instant Confirmation Pass */}
+                <div className="lg:col-span-6 rounded-lg bg-white p-5 sm:p-8 shadow-xs space-y-5 border border-slate-200">
+                  <div className="flex items-start justify-between gap-3 border-b border-slate-100 pb-4">
+                    <div className="space-y-1">
+                      <div className="text-xs font-bold tracking-wider uppercase text-[#1E6C93]">
+                        {t('INSTANT ONLINE BOOKING DESK', 'ऑनलाइन प्लान और ट्रायल बुकिंग डेस्क')}
+                      </div>
+                      <h3 className="font-display-athletic text-2xl sm:text-3xl font-bold text-[#212121] uppercase">
+                        {t('Complete Your Club Booking', 'अपना प्लान चुनें और बुकिंग पूरी करें')}
+                      </h3>
+                      <p className="text-xs sm:text-sm text-slate-600">
+                        {t(
+                          'Select your membership plan & amount below. On clicking Confirm, your booking is completed immediately and sent straight to the club.',
+                          'नीचे अपना प्लान और राशि (₹) चुनें। कन्फर्म बटन दबाते ही आपकी बुकिंग तुरंत पूरी हो जाएगी और सीधा क्लब के WhatsApp पर मैसेज चला जाएगा।'
+                        )}
+                      </p>
                     </div>
-                    <h3 className="font-display-athletic text-2xl sm:text-3xl font-bold text-[#212121] uppercase">
-                      {t('Book Your Trial Session on WhatsApp', 'WhatsApp पर अपना ट्रायल बुक करें')}
-                    </h3>
-                    <p className="text-xs sm:text-sm text-slate-600">
-                      {t(
-                        'Enter your details below to send an instant trial pass booking message directly to +91 91166 42929.',
-                        'अपनी जानकारी भरें और क्लिक करते ही सीधा जिम के WhatsApp (+91 91166 42929) पर ट्रायल मैसेज भेजें।'
-                      )}
-                    </p>
+                    <button
+                      type="button"
+                      onClick={() => navigateInstant('plans')}
+                      className="text-xs font-bold text-[#1E6C93] hover:underline whitespace-nowrap shrink-0 cursor-pointer"
+                    >
+                      {t('Compare All Plans →', 'सभी प्लान देखें →')}
+                    </button>
                   </div>
 
-                  <form onSubmit={handleBookingSubmit} className="space-y-4" noValidate>
-                    <div>
-                      <label htmlFor="wa-name" className="block text-xs font-semibold text-slate-700 mb-1">
-                        {t('Full Name *', 'आपका नाम *')}
-                      </label>
-                      <input
-                        id="wa-name"
-                        type="text"
-                        value={fullName}
-                        onChange={(e) => {
-                          setFullName(e.target.value);
-                          if (formError) setFormError('');
-                        }}
-                        placeholder={t('Enter your full name', 'अपना पूरा नाम लिखें')}
-                        className="w-full px-3.5 py-2.5 rounded bg-slate-50 border border-slate-300 text-sm text-[#212121] focus:outline-none focus:border-[#1E6C93]"
-                      />
+                  {/* Quick Plan & Amount (₹) Selector Pills */}
+                  <div className="space-y-2">
+                    <label className="block text-xs font-bold text-slate-700">
+                      {t('1. Select Membership Plan & Amount (₹) *', '1. अपना मेंबरशिप प्लान और राशि (₹) चुनें *')}
+                    </label>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+                      {MEMBERSHIP_PLANS.map((plan) => {
+                        const active = plan.id === selectedPlanId;
+                        return (
+                          <button
+                            key={plan.id}
+                            type="button"
+                            onClick={() => {
+                              setSelectedPlanId(plan.id);
+                              setBookingPrepared(false);
+                            }}
+                            className={`p-2.5 rounded-lg border text-left transition-all cursor-pointer flex flex-col justify-between ${
+                              active
+                                ? 'bg-[#111820] text-white border-[#111820] ring-2 ring-[#FACC15]'
+                                : 'bg-slate-50 text-[#212121] border-slate-200 hover:border-[#1E6C93]'
+                            }`}
+                          >
+                            <div className="text-[11px] font-semibold opacity-85 truncate">
+                              {lang === 'en' ? plan.nameEn : plan.nameHi}
+                            </div>
+                            <div className="mt-1 flex items-baseline justify-between gap-1">
+                              <span
+                                className={`font-mono-tabular text-base sm:text-lg font-extrabold ${
+                                  active ? 'text-[#FACC15]' : 'text-[#1E6C93]'
+                                }`}
+                              >
+                                {plan.amountFormatted}
+                              </span>
+                              {active && <Check className="w-3.5 h-3.5 text-[#FACC15] shrink-0" />}
+                            </div>
+                          </button>
+                        );
+                      })}
                     </div>
+                  </div>
 
+                  {/* Selected Plan & Payable Amount Highlight Box */}
+                  <div className="p-3.5 rounded-lg bg-[#F8FAFC] border border-slate-200 flex items-center justify-between gap-4">
                     <div>
-                      <label htmlFor="wa-phone" className="block text-xs font-semibold text-slate-700 mb-1">
-                        {t('Mobile / WhatsApp Number *', 'मोबाइल नंबर *')}
-                      </label>
-                      <input
-                        id="wa-phone"
-                        type="tel"
-                        value={phoneNumber}
-                        onChange={(e) => {
-                          setPhoneNumber(e.target.value);
-                          if (formError) setFormError('');
-                        }}
-                        placeholder="+91 98XXX XXXXX"
-                        className="w-full px-3.5 py-2.5 rounded bg-slate-50 border border-slate-300 text-sm text-[#212121] font-mono-tabular focus:outline-none focus:border-[#1E6C93]"
-                      />
+                      <div className="text-[11px] font-bold uppercase tracking-wider text-[#1E6C93]">
+                        {t('SELECTED PLAN & DURATION', 'चयनित प्लान और अवधि')}
+                      </div>
+                      <div className="text-sm sm:text-base font-bold text-[#212121]">
+                        {lang === 'en' ? selectedPlanObj.nameEn : selectedPlanObj.nameHi}
+                      </div>
+                      <div className="text-xs text-slate-500">
+                        {lang === 'en' ? selectedPlanObj.durationEn : selectedPlanObj.durationHi} ·{' '}
+                        {lang === 'en' ? selectedPlanObj.perMonthEn : selectedPlanObj.perMonthHi}
+                      </div>
                     </div>
+                    <div className="text-right shrink-0">
+                      <div className="text-[11px] font-semibold text-slate-500">
+                        {t('Plan Amount', 'कुल राशि')}
+                      </div>
+                      <div className="font-mono-tabular text-2xl sm:text-3xl font-extrabold text-[#111820]">
+                        {selectedPlanObj.amountFormatted}
+                      </div>
+                    </div>
+                  </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div>
-                        <label htmlFor="wa-prog" className="block text-xs font-semibold text-slate-700 mb-1">
-                          {t('Select Training Zone', 'ट्रेनिंग ज़ोन चुनें')}
-                        </label>
-                        <select
-                          id="wa-prog"
-                          value={selectedProgram}
-                          onChange={(e) => setSelectedProgram(e.target.value)}
-                          className="w-full px-3 py-2.5 rounded bg-slate-50 border border-slate-300 text-sm text-[#212121] focus:outline-none focus:border-[#1E6C93]"
-                        >
-                          {FITNESS_SOLUTIONS.map((s) => (
-                            <option key={s.en} value={s.en}>
-                              {lang === 'en' ? s.en : s.hi}
+                  {/* Hidden Direct WhatsApp Anchor Trigger */}
+                  <a
+                    id="direct-wa-trigger"
+                    href={whatsappUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hidden"
+                    aria-hidden="true"
+                  >
+                    Open WhatsApp
+                  </a>
+
+                  {!bookingPrepared ? (
+                    <form onSubmit={handleBookingSubmit} className="space-y-4" noValidate>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                          <label htmlFor="wa-name" className="block text-xs font-semibold text-slate-700 mb-1">
+                            {t('Full Name *', 'आपका पूरा नाम *')}
+                          </label>
+                          <input
+                            id="wa-name"
+                            type="text"
+                            value={fullName}
+                            onChange={(e) => {
+                              setFullName(e.target.value);
+                              if (formError) setFormError('');
+                            }}
+                            placeholder={t('Enter your full name', 'अपना नाम लिखें')}
+                            className="w-full px-3.5 py-2.5 rounded bg-slate-50 border border-slate-300 text-sm text-[#212121] focus:outline-none focus:border-[#1E6C93]"
+                          />
+                        </div>
+
+                        <div>
+                          <label htmlFor="wa-phone" className="block text-xs font-semibold text-slate-700 mb-1">
+                            {t('Mobile / WhatsApp Number *', 'मोबाइल नंबर *')}
+                          </label>
+                          <input
+                            id="wa-phone"
+                            type="tel"
+                            value={phoneNumber}
+                            onChange={(e) => {
+                              setPhoneNumber(e.target.value);
+                              if (formError) setFormError('');
+                            }}
+                            placeholder="+91 98XXX XXXXX"
+                            className="w-full px-3.5 py-2.5 rounded bg-slate-50 border border-slate-300 text-sm text-[#212121] font-mono-tabular focus:outline-none focus:border-[#1E6C93]"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                          <label htmlFor="wa-prog" className="block text-xs font-semibold text-slate-700 mb-1">
+                            {t('Select Training Zone', 'ट्रेनिंग ज़ोन चुनें')}
+                          </label>
+                          <select
+                            id="wa-prog"
+                            value={selectedProgram}
+                            onChange={(e) => setSelectedProgram(e.target.value)}
+                            className="w-full px-3 py-2.5 rounded bg-slate-50 border border-slate-300 text-sm text-[#212121] focus:outline-none focus:border-[#1E6C93]"
+                          >
+                            {FITNESS_SOLUTIONS.map((s) => (
+                              <option key={s.en} value={s.en}>
+                                {lang === 'en' ? s.en : s.hi}
+                              </option>
+                            ))}
+                            <option value="REFORMER PILATES & YOGA">
+                              {t('REFORMER PILATES & YOGA', 'रिफॉर्मर पिलाटेस और योगा')}
                             </option>
-                          ))}
-                          <option value="REFORMER PILATES & YOGA">
-                            {t('REFORMER PILATES & YOGA', 'रिफॉर्मर पिलाटेस और योगा')}
-                          </option>
-                        </select>
+                          </select>
+                        </div>
+
+                        <div>
+                          <label htmlFor="wa-batch" className="block text-xs font-semibold text-slate-700 mb-1">
+                            {t('Preferred Time', 'पसंदीदा समय')}
+                          </label>
+                          <select
+                            id="wa-batch"
+                            value={preferredBatch}
+                            onChange={(e) => setPreferredBatch(e.target.value)}
+                            className="w-full px-3 py-2.5 rounded bg-slate-50 border border-slate-300 text-sm text-[#212121] focus:outline-none focus:border-[#1E6C93]"
+                          >
+                            <option value="Morning (6:00 AM – 11:00 AM)">
+                              {t('Morning (6:00 AM – 11:00 AM)', 'सुबह (6:00 AM – 11:00 AM)')}
+                            </option>
+                            <option value="Evening (4:00 PM – 9:30 PM)">
+                              {t('Evening (4:00 PM – 9:30 PM)', 'शाम (4:00 PM – 9:30 PM)')}
+                            </option>
+                          </select>
+                        </div>
                       </div>
 
-                      <div>
-                        <label htmlFor="wa-batch" className="block text-xs font-semibold text-slate-700 mb-1">
-                          {t('Preferred Time', 'पसंदीदा समय')}
-                        </label>
-                        <select
-                          id="wa-batch"
-                          value={preferredBatch}
-                          onChange={(e) => setPreferredBatch(e.target.value)}
-                          className="w-full px-3 py-2.5 rounded bg-slate-50 border border-slate-300 text-sm text-[#212121] focus:outline-none focus:border-[#1E6C93]"
+                      {formError && (
+                        <div
+                          role="alert"
+                          className="p-3 rounded bg-red-50 border border-red-200 text-xs font-medium text-red-700"
                         >
-                          <option value="Morning (6:00 AM – 11:00 AM)">
-                            {t('Morning (6:00 AM – 11:00 AM)', 'सुबह (6:00 AM – 11:00 AM)')}
-                          </option>
-                          <option value="Evening (4:00 PM – 9:30 PM)">
-                            {t('Evening (4:00 PM – 9:30 PM)', 'शाम (4:00 PM – 9:30 PM)')}
-                          </option>
-                        </select>
+                          {formError}
+                        </div>
+                      )}
+
+                      <div className="flex flex-col sm:flex-row gap-3 pt-1">
+                        <button
+                          type="submit"
+                          className="flex-1 inline-flex items-center justify-center gap-2 py-3.5 px-5 rounded-md bg-[#25D366] hover:bg-[#1EBE5D] text-white font-bold text-sm shadow-sm transition-colors cursor-pointer"
+                        >
+                          <Check className="w-4 h-4 stroke-[2.5]" />
+                          <span>
+                            {t(
+                              `Confirm Booking (${selectedPlanObj.amountFormatted}) & Send Message`,
+                              `बुकिंग कन्फर्म करें (${selectedPlanObj.amountFormatted}) और सीधा मैसेज भेजें`
+                            )}
+                          </span>
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={handleCopyWhatsAppText}
+                          className="inline-flex items-center justify-center gap-1.5 py-3 px-4 rounded-md bg-slate-100 hover:bg-slate-200 text-xs font-semibold text-slate-700 transition-colors cursor-pointer"
+                        >
+                          {copiedWaText ? (
+                            <Check className="w-3.5 h-3.5 text-emerald-600" />
+                          ) : (
+                            <Copy className="w-3.5 h-3.5" />
+                          )}
+                          <span>
+                            {copiedWaText ? t('Copied', 'कॉपी हो गया') : t('Copy Details', 'डिटेल कॉपी करें')}
+                          </span>
+                        </button>
                       </div>
-                    </div>
-
-                    {formError && (
-                      <div
-                        role="alert"
-                        className="p-3 rounded bg-red-50 border border-red-200 text-xs font-medium text-red-700"
-                      >
-                        {formError}
+                    </form>
+                  ) : (
+                    /* INSTANT COMPLETED BOOKING PASS & RECEIPT SCREEN */
+                    <div className="rounded-xl bg-emerald-50/90 border-2 border-emerald-500 p-5 sm:p-6 space-y-4">
+                      <div className="flex items-start justify-between gap-3 border-b border-emerald-200 pb-3.5">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-xs">
+                            <Check className="w-6 h-6 stroke-[2.5]" />
+                          </div>
+                          <div>
+                            <div className="text-[11px] font-mono-tabular font-bold uppercase tracking-wider text-emerald-800">
+                              {t('BOOKING CONFIRMED · ID:', 'बुकिंग कन्फर्म हो गई है · आईडी:')} {bookingRefId}
+                            </div>
+                            <h4 className="font-display-athletic text-xl sm:text-2xl font-bold text-emerald-950 uppercase">
+                              {t(
+                                'Your Booking Is Complete & Message Sent!',
+                                'आपकी बुकिंग पूरी हो गई है और मैसेज भेज दिया गया है!'
+                              )}
+                            </h4>
+                          </div>
+                        </div>
+                        <span className="text-[11px] font-bold bg-emerald-600 text-white px-2.5 py-1 rounded uppercase shrink-0">
+                          {t('Confirmed', 'कन्फर्म')}
+                        </span>
                       </div>
-                    )}
 
-                    <a
-                      id="direct-wa-trigger"
-                      href={whatsappUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="hidden"
-                      aria-hidden="true"
-                    >
-                      Open WhatsApp
-                    </a>
+                      {/* Official Booking Summary Pass */}
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 bg-white p-4 rounded-lg border border-emerald-200 text-xs">
+                        <div>
+                          <div className="text-slate-500">{t('Member Name', 'सदस्य का नाम')}</div>
+                          <div className="font-bold text-[#212121] text-sm mt-0.5">{fullName}</div>
+                        </div>
+                        <div>
+                          <div className="text-slate-500">{t('Mobile Number', 'मोबाइल नंबर')}</div>
+                          <div className="font-mono-tabular font-bold text-[#212121] text-sm mt-0.5">
+                            {phoneNumber}
+                          </div>
+                        </div>
+                        <div>
+                          <div className="text-slate-500">{t('Plan Amount', 'प्लान की राशि')}</div>
+                          <div className="font-mono-tabular font-extrabold text-emerald-700 text-base mt-0.5">
+                            {selectedPlanObj.amountFormatted}
+                          </div>
+                        </div>
+                        <div className="col-span-2 sm:col-span-1">
+                          <div className="text-slate-500">{t('Selected Plan', 'चयनित प्लान')}</div>
+                          <div className="font-bold text-[#1E6C93] mt-0.5">
+                            {lang === 'en' ? selectedPlanObj.nameEn : selectedPlanObj.nameHi}
+                          </div>
+                        </div>
+                        <div>
+                          <div className="text-slate-500">{t('Training Zone', 'ट्रेनिंग ज़ोन')}</div>
+                          <div className="font-semibold text-[#212121] mt-0.5">{selectedProgram}</div>
+                        </div>
+                        <div>
+                          <div className="text-slate-500">{t('Batch Time', 'बैच का समय')}</div>
+                          <div className="font-semibold text-[#212121] mt-0.5">{preferredBatch}</div>
+                        </div>
+                      </div>
 
-                    <div className="flex flex-col sm:flex-row gap-3 pt-1">
-                      <button
-                        type="submit"
-                        className="flex-1 inline-flex items-center justify-center gap-2 py-3 px-5 rounded bg-[#1E6C93] hover:bg-[#165373] text-white font-semibold text-sm transition-colors cursor-pointer"
-                      >
-                        <MessageSquare className="w-4 h-4" />
+                      <div className="text-xs text-emerald-900 flex flex-wrap items-center justify-between gap-2">
                         <span>
                           {t(
-                            'Send Trial Request on WhatsApp',
-                            'WhatsApp पर ट्रायल बुक करें (+91 91166 42929)'
+                            `Booked on ${bookingTimeStr} · Above Puma Showroom, Panchsati Circle, Bikaner`,
+                            `समय: ${bookingTimeStr} · प्यूमा शोरूम के ऊपर, पंचशती सर्किल, बीकानेर`
                           )}
                         </span>
-                      </button>
+                      </div>
 
-                      <button
-                        type="button"
-                        onClick={handleCopyWhatsAppText}
-                        className="inline-flex items-center justify-center gap-1.5 py-3 px-4 rounded bg-slate-100 hover:bg-slate-200 text-xs font-semibold text-slate-700 transition-colors cursor-pointer"
-                      >
-                        {copiedWaText ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
-                        <span>{copiedWaText ? t('Copied', 'कॉपी हो गया') : t('Copy Message', 'मैसेज कॉपी करें')}</span>
-                      </button>
-                    </div>
-                  </form>
-
-                  {bookingPrepared && (
-                    <div className="p-4 rounded bg-emerald-50 border border-emerald-200 space-y-2">
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs font-bold text-emerald-800">
-                          {t('WhatsApp Booking Message Ready!', 'आपका WhatsApp बुकिंग मैसेज तैयार है!')}
-                        </span>
+                      <div className="flex flex-wrap items-center gap-3 pt-1">
                         <a
                           href={whatsappUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-xs font-bold text-white bg-emerald-700 px-3 py-1 rounded hover:bg-emerald-800"
+                          className="flex-1 inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-md bg-[#25D366] hover:bg-[#1EBE5D] text-white font-bold text-xs sm:text-sm transition-colors"
                         >
-                          {t('Open WhatsApp →', 'WhatsApp खोलें →')}
+                          <MessageSquare className="w-4 h-4" />
+                          <span>
+                            {t(
+                              'View / Send Booking Pass on WhatsApp →',
+                              'WhatsApp पर बुकिंग पास देखें / भेजें →'
+                            )}
+                          </span>
                         </a>
+                        <button
+                          type="button"
+                          onClick={() => setBookingPrepared(false)}
+                          className="py-2.5 px-4 rounded-md bg-white border border-emerald-300 text-emerald-900 hover:bg-emerald-100 font-semibold text-xs cursor-pointer"
+                        >
+                          {t('Edit / New Booking', 'बदलाव करें / नई बुकिंग')}
+                        </button>
                       </div>
                     </div>
                   )}
@@ -1819,6 +2497,13 @@ export default function App() {
                   className="text-center sm:text-left hover:text-[#FACC15] transition-colors cursor-pointer"
                 >
                   {t('Home', 'होम पेज')}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => navigateInstant('plans')}
+                  className="text-center sm:text-left hover:text-[#FACC15] transition-colors cursor-pointer"
+                >
+                  {t('Plans & Pricing (₹)', 'प्लान और फीस (₹)')}
                 </button>
                 <button
                   type="button"
