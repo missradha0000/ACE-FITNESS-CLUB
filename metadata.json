@@ -1,0 +1,6 @@
+{
+  "name": "Ace Fitness Club Bikaner",
+  "description": "Bikaner's premier luxury fitness and wellness sanctuary led by PEPT Australia & ACE certified director Abhishek K. Gaur at Panchsati Circle, Sadul Ganj.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
