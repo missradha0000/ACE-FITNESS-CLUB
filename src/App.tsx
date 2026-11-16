@@ -261,7 +261,7 @@ function HangingRopeLogo({ onClickHome, lang }: HangingRopeLogoProps) {
       const rect = anchorMeasureRef.current.getBoundingClientRect();
       const isMobile = window.innerWidth < 640;
       const newAnchorX = rect.left + rect.width / 2;
-      const newRestLen = isMobile ? 52 : 68;
+      const newRestLen = isMobile ? 28 : 68;
       const st = stateRef.current;
       st.anchorX = newAnchorX;
       st.restRopeLen = newRestLen;
@@ -306,7 +306,7 @@ function HangingRopeLogo({ onClickHome, lang }: HangingRopeLogoProps) {
       const lastIdx = NUM_NODES - 1;
 
       const isMobile = window.innerWidth < 640;
-      const badgeRadius = isMobile ? 43 : window.innerWidth < 768 ? 56 : 66;
+      const badgeRadius = isMobile ? 33 : window.innerWidth < 768 ? 56 : 66;
 
       // Ambient gentle breeze force so it continuously sways even when untouched
       const breezeForce =
@@ -530,7 +530,7 @@ function HangingRopeLogo({ onClickHome, lang }: HangingRopeLogoProps) {
       {/* Hidden measurement box at the top-left of the navbar to anchor the ceiling mount */}
       <div
         ref={anchorMeasureRef}
-        className="fixed top-0 left-2 sm:left-6 lg:left-10 w-[96px] sm:w-[124px] md:w-[144px] h-1 pointer-events-none z-50"
+        className="fixed top-0 left-2 sm:left-6 lg:left-10 w-[74px] sm:w-[124px] md:w-[144px] h-1 pointer-events-none z-50"
         aria-hidden="true"
       />
 
@@ -636,7 +636,7 @@ function HangingRopeLogo({ onClickHome, lang }: HangingRopeLogoProps) {
         }
         aria-label="Ace Fitness Club Interactive Rope Logo — Pull & Play"
         style={{ transform: 'translate3d(20px, 50px, 0)' }}
-        className="fixed top-0 left-0 z-50 w-[86px] h-[86px] sm:w-[112px] sm:h-[112px] md:w-[132px] md:h-[132px] rounded-full p-[3.5px] sm:p-[4.5px] bg-gradient-to-b from-[#FDE047] via-[#FACC15] to-[#EAB308] shadow-[0_18px_34px_rgba(0,0,0,0.48),0_4px_12px_rgba(0,0,0,0.32)] cursor-grab active:cursor-grabbing pointer-events-auto touch-none select-none will-change-transform focus:outline-none"
+        className="fixed top-0 left-0 z-50 w-[66px] h-[66px] sm:w-[112px] sm:h-[112px] md:w-[132px] md:h-[132px] rounded-full p-[3px] sm:p-[4.5px] bg-gradient-to-b from-[#FDE047] via-[#FACC15] to-[#EAB308] shadow-[0_18px_34px_rgba(0,0,0,0.48),0_4px_12px_rgba(0,0,0,0.32)] cursor-grab active:cursor-grabbing pointer-events-auto touch-none select-none will-change-transform focus:outline-none"
       >
         <div className="w-full h-full rounded-full overflow-hidden bg-black relative flex items-center justify-center ring-1 ring-black/40">
           <img
@@ -950,15 +950,15 @@ export default function App() {
 
       {/* ==================== STYLISH PERMANENTLY FIXED TOP HEADER ==================== */}
       <header className="fixed top-0 left-0 right-0 z-40 bg-gradient-to-r from-[#111820] via-[#17232E] to-[#111820] text-white border-b-2 border-[#FACC15]/80 shadow-md">
-        <div className="max-w-[1280px] mx-auto flex items-center justify-between gap-4 sm:gap-6 pl-[108px] sm:pl-[148px] md:pl-[172px] pr-4 sm:pr-6 h-[60px] md:h-[68px]">
+        <div className="max-w-[1280px] mx-auto flex items-center justify-between gap-3 sm:gap-6 pl-[88px] sm:pl-[148px] md:pl-[172px] pr-3.5 sm:pr-6 h-[60px] md:h-[68px]">
           {/* Mobile Compact Brand Title */}
           <button
             type="button"
             onClick={() => navigateInstant('home')}
-            className="flex md:hidden items-center gap-1.5 font-display-athletic text-lg font-bold tracking-wider whitespace-nowrap shrink-0 cursor-pointer"
+            className="flex md:hidden items-center gap-1.5 font-display-athletic text-base sm:text-lg font-bold tracking-wider whitespace-nowrap shrink-0 cursor-pointer"
           >
             <span className="text-[#FACC15] italic">ACE</span>
-            <span className="bg-[#FACC15] text-[#111820] px-1.5 py-0.5 rounded-xs italic text-sm">
+            <span className="bg-[#FACC15] text-[#111820] px-1.5 py-0.5 rounded-xs italic text-xs sm:text-sm">
               FITNESS
             </span>
           </button>
@@ -1041,7 +1041,7 @@ export default function App() {
             <button
               type="button"
               onClick={() => navigateInstant('location')}
-              className="px-4 sm:px-5 py-2 text-xs sm:text-sm font-bold text-[#111820] bg-[#FACC15] hover:bg-[#FDE047] rounded-md transition-colors whitespace-nowrap shrink-0 cursor-pointer shadow-xs"
+              className="px-3 sm:px-5 py-1.5 sm:py-2 text-xs sm:text-sm font-bold text-[#111820] bg-[#FACC15] hover:bg-[#FDE047] rounded-md transition-colors whitespace-nowrap shrink-0 cursor-pointer shadow-xs"
             >
               {t('Book Plan / Trial', 'प्लान / ट्रायल बुक करें')}
             </button>
@@ -1051,7 +1051,7 @@ export default function App() {
         {/* Mobile Clean Tab Row */}
         <nav
           aria-label="Mobile Navigation"
-          className="flex md:hidden items-center justify-between gap-5 overflow-x-auto no-scrollbar pl-[108px] sm:pl-[148px] pr-4 h-[36px] bg-[#0D1318] border-t border-white/10 text-xs font-semibold"
+          className="flex md:hidden items-center justify-between gap-4 overflow-x-auto no-scrollbar pl-[88px] sm:pl-[148px] pr-3.5 h-[36px] bg-[#0D1318] border-t border-white/10 text-xs font-semibold"
         >
           {(
             [
@@ -1082,8 +1082,8 @@ export default function App() {
       <main className="flex-1">
         {/* Sub-page Instant Return Bar + Language Toggle when viewing a specific section */}
         {activePage !== 'home' && (
-          <div className="bg-[#F2F2F2] border-b border-slate-200 mb-8 sm:mb-10">
-            <div className="max-w-[1280px] mx-auto pl-[112px] sm:pl-[152px] md:pl-[180px] pr-4 sm:pr-6 py-3 flex items-center justify-between gap-3">
+          <div className="bg-[#F2F2F2] border-b border-slate-200 mb-6 sm:mb-10">
+            <div className="max-w-[1280px] mx-auto pl-4 sm:pl-[152px] md:pl-[180px] pr-4 sm:pr-6 py-2.5 sm:py-3 flex items-center justify-between gap-3">
               <button
                 type="button"
                 onClick={() => navigateInstant('home')}
@@ -1121,8 +1121,8 @@ export default function App() {
         {/* ==================== FULL-WIDTH AUTO-SLIDING HERO WITH REFINED EDITORIAL TYPOGRAPHY ==================== */}
         {activePage === 'home' && (
           <section className="relative w-full bg-slate-950 overflow-hidden">
-            {/* Full-Width Automatic Image Carousel */}
-            <div className="relative w-full h-[500px] sm:h-[580px] lg:h-[650px]">
+            {/* Full-Width Automatic Image Carousel (Flex Column on Mobile so Top Bar & Bottom Text NEVER overlap) */}
+            <div className="relative w-full min-h-[430px] sm:h-[580px] lg:h-[650px] flex flex-col justify-between">
               {HERO_SLIDES.map((slide, idx) => (
                 <div
                   key={slide.id}
@@ -1135,15 +1135,15 @@ export default function App() {
                     alt={slide.titleEn}
                     className="w-full h-full object-cover object-center"
                   />
-                  {/* Multi-Stop Editorial Scrim for Crystal-Clear Text Contrast */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/65 to-slate-950/25" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/35 to-slate-950/40" />
+                  {/* Multi-Stop Editorial Scrim: Lighter at top on mobile so the photo is clearly visible */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-slate-950/85 via-slate-950/55 to-slate-950/20" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/45 to-slate-950/20" />
                 </div>
               ))}
 
-              {/* Top Utility Row Inside Hero: Slide Counter + Clean Bilingual Switcher (Indented past hanging logo) */}
-              <div className="absolute top-0 left-0 right-0 z-20 max-w-[1280px] mx-auto pl-[112px] sm:pl-[152px] md:pl-[180px] pr-4 sm:pr-6 pt-4 sm:pt-5 flex items-center justify-between gap-4">
-                <div className="flex items-center gap-2 text-xs font-mono-tabular text-white/85">
+              {/* Top Utility Row Inside Hero: Slide Counter + Clean Bilingual Switcher */}
+              <div className="relative z-20 w-full max-w-[1280px] mx-auto pl-4 sm:pl-[152px] md:pl-[180px] pr-4 sm:pr-6 pt-3 sm:pt-5 flex items-center justify-between gap-3">
+                <div className="flex items-center gap-1.5 sm:gap-2 text-xs font-mono-tabular text-white/90 bg-slate-950/45 sm:bg-transparent px-2.5 py-1 sm:p-0 rounded-md backdrop-blur-xs sm:backdrop-blur-none">
                   <span className="text-[#FACC15] font-bold">{activeSlideObj.index}</span>
                   <span className="text-white/40">/</span>
                   <span>0{HERO_SLIDES.length}</span>
@@ -1155,14 +1155,14 @@ export default function App() {
 
                 {/* Clean Segmented Language Switch */}
                 <div
-                  className="flex items-center gap-1 p-1 bg-slate-900/80 backdrop-blur-md border border-white/15 rounded-md text-xs font-semibold shrink-0"
+                  className="flex items-center gap-1 p-0.5 sm:p-1 bg-slate-900/85 backdrop-blur-md border border-white/15 rounded-md text-[11px] sm:text-xs font-semibold shrink-0"
                   role="group"
                   aria-label="Language Switcher"
                 >
                   <button
                     type="button"
                     onClick={() => setLang('en')}
-                    className={`px-2.5 py-1 rounded transition-colors cursor-pointer whitespace-nowrap ${
+                    className={`px-2 sm:px-2.5 py-1 rounded transition-colors cursor-pointer whitespace-nowrap ${
                       lang === 'en' ? 'bg-[#FACC15] text-slate-950 font-bold' : 'text-white/85 hover:text-white'
                     }`}
                   >
@@ -1171,7 +1171,7 @@ export default function App() {
                   <button
                     type="button"
                     onClick={() => setLang('hi')}
-                    className={`px-2.5 py-1 rounded transition-colors cursor-pointer whitespace-nowrap ${
+                    className={`px-2 sm:px-2.5 py-1 rounded transition-colors cursor-pointer whitespace-nowrap ${
                       lang === 'hi' ? 'bg-[#FACC15] text-slate-950 font-bold' : 'text-white/85 hover:text-white'
                     }`}
                   >
@@ -1180,7 +1180,10 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Left / Right Slider Arrow Controls */}
+              {/* Dedicated Open Photo Window on Mobile so background image breathes and text never touches top bar */}
+              <div className="relative z-10 h-[95px] sm:h-0 pointer-events-none shrink-0" />
+
+              {/* Left / Right Slider Arrow Controls (Desktop) */}
               <button
                 type="button"
                 onClick={prevSlide}
@@ -1199,47 +1202,53 @@ export default function App() {
               </button>
 
               {/* Main Editorial Hero Copy Container */}
-              <div className="absolute inset-x-0 bottom-0 z-20 max-w-[1280px] mx-auto px-4 sm:px-6 pb-8 sm:pb-12">
-                <div className="max-w-3xl space-y-3 sm:space-y-4">
+              <div className="relative z-20 w-full max-w-[1280px] mx-auto px-4 sm:px-6 pb-5 sm:pb-12">
+                <div className="max-w-3xl space-y-2 sm:space-y-4">
                   {/* Kicker Line */}
-                  <div className="flex items-center gap-2.5 text-xs sm:text-sm font-semibold tracking-wide text-[#FACC15]">
-                    <span>
+                  <div className="flex items-center gap-2 text-[11px] sm:text-sm font-semibold tracking-wide text-[#FACC15] truncate">
+                    <span className="truncate">
                       {lang === 'en' ? activeSlideObj.kickerEn : activeSlideObj.kickerHi}
                     </span>
                   </div>
 
                   {/* High-Contrast Balanced Display Headline */}
                   <h1
-                    className="font-display-athletic text-3xl sm:text-5xl lg:text-[3.6rem] font-bold text-white leading-[1.1] tracking-tight drop-shadow-sm"
+                    className="font-display-athletic text-2xl sm:text-5xl lg:text-[3.6rem] font-bold text-white leading-[1.15] sm:leading-[1.1] tracking-tight drop-shadow-sm"
                     style={{ textWrap: 'balance' }}
                   >
                     {lang === 'en' ? activeSlideObj.titleEn : activeSlideObj.titleHi}
                   </h1>
 
-                  {/* Refined Readable Description */}
-                  <p className="text-sm sm:text-base lg:text-lg text-slate-100/95 max-w-2xl leading-relaxed font-normal">
+                  {/* Refined Readable Description (2 clean lines on mobile, full text on desktop) */}
+                  <p className="text-xs sm:text-base lg:text-lg text-slate-100/95 max-w-2xl leading-relaxed font-normal line-clamp-2 sm:line-clamp-none">
                     {lang === 'en' ? activeSlideObj.subEn : activeSlideObj.subHi}
                   </p>
 
-                  {/* Primary & Secondary Action Buttons */}
-                  <div className="pt-2 flex flex-wrap items-center gap-3 sm:gap-4">
+                  {/* Primary & Secondary Action Buttons (Side-by-side compact on mobile, full size on desktop) */}
+                  <div className="pt-1.5 sm:pt-2 flex flex-wrap items-center gap-2 sm:gap-4">
                     <button
                       type="button"
                       onClick={() => navigateInstant('plans')}
-                      className="px-5 sm:px-6 py-3 text-xs sm:text-sm font-bold text-slate-950 bg-[#FACC15] hover:bg-[#FDE047] rounded-md transition-colors cursor-pointer whitespace-nowrap shadow-sm"
+                      className="px-3.5 sm:px-6 py-2.5 sm:py-3 text-xs sm:text-sm font-bold text-slate-950 bg-[#FACC15] hover:bg-[#FDE047] rounded-md transition-colors cursor-pointer whitespace-nowrap shadow-sm"
                     >
-                      {t('View Membership Plans & Fees (₹)', 'सभी मेंबरशिप प्लान और फीस देखें (₹)')}
+                      <span className="sm:hidden">{t('Plans & Fees (₹)', 'प्लान और फीस (₹)')}</span>
+                      <span className="hidden sm:inline">
+                        {t('View Membership Plans & Fees (₹)', 'सभी मेंबरशिप प्लान और फीस देखें (₹)')}
+                      </span>
                     </button>
                     <button
                       type="button"
                       onClick={() => navigateInstant('location')}
-                      className="px-4 sm:px-5 py-3 text-xs sm:text-sm font-semibold text-white bg-white/15 hover:bg-white/25 backdrop-blur-xs border border-white/25 rounded-md transition-colors whitespace-nowrap cursor-pointer"
+                      className="px-3.5 sm:px-5 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold text-white bg-white/15 hover:bg-white/25 backdrop-blur-xs border border-white/25 rounded-md transition-colors whitespace-nowrap cursor-pointer"
                     >
-                      {t('Book Trial / Membership Now', 'अभी ऑनलाइन बुकिंग करें')}
+                      <span className="sm:hidden">{t('Book Now', 'अभी बुक करें')}</span>
+                      <span className="hidden sm:inline">
+                        {t('Book Trial / Membership Now', 'अभी ऑनलाइन बुकिंग करें')}
+                      </span>
                     </button>
                     <a
                       href="tel:+919116642929"
-                      className="px-4 sm:px-5 py-3 text-xs sm:text-sm font-semibold text-white hover:text-[#FACC15] transition-colors whitespace-nowrap font-mono-tabular"
+                      className="hidden sm:inline-block px-4 sm:px-5 py-3 text-xs sm:text-sm font-semibold text-white hover:text-[#FACC15] transition-colors whitespace-nowrap font-mono-tabular"
                     >
                       +91 91166 42929
                     </a>
@@ -1247,7 +1256,7 @@ export default function App() {
                 </div>
 
                 {/* Interactive Numbered Slide Selector Bar */}
-                <div className="mt-7 pt-4 border-t border-white/15 flex items-center justify-between gap-4">
+                <div className="mt-4 sm:mt-7 pt-3 sm:pt-4 border-t border-white/15 flex items-center justify-between gap-4">
                   <div className="flex items-center gap-2 sm:gap-3">
                     {HERO_SLIDES.map((s, idx) => (
                       <button
@@ -1262,7 +1271,7 @@ export default function App() {
                         <span className="font-mono-tabular text-xs font-bold">{s.index}</span>
                         <span
                           className={`h-1 rounded-full transition-all ${
-                            idx === currentSlide ? 'w-7 sm:w-10 bg-[#FACC15]' : 'w-2 bg-white/35'
+                            idx === currentSlide ? 'w-6 sm:w-10 bg-[#FACC15]' : 'w-2 bg-white/35'
                           }`}
                         />
                       </button>
